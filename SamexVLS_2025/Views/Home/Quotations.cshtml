@@ -1,0 +1,231 @@
+﻿@model  IEnumerable<MR23_cotizacion>
+ @{
+     var _quotes = Model ?? new List<MR23_cotizacion>();
+     ViewData["Title"] = "Quotations";
+     Layout = "~/Views/Shared/_LayoutAdminlte.cshtml";
+ }
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="../Home">Home</a></li>
+                    <li class="breadcrumb-item active">Quotations</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+
+
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title"> @ViewData["Title"]</h3>
+            </div>
+            <!-- /.card-header -->
+
+            <button style="width:100px" class="btn btn-block btn-secondary" id="buttonId" name="buttonId" type="button" data-toggle="modal" data-target="#testModal"><span>Add New</span></button>
+
+            <div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px">
+                    <div class="modal-content position-relative">
+                        <div class="position-absolute top-0 end-0 mt-2 me-2 z-1">
+                            <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body p-0">
+                            <div class="rounded-top-3 py-3 ps-4 pe-6 bg-body-tertiary">
+                                <h4 class="mb-1" id="modalExampleDemoLabel">&nbsp; New Quote</h4>
+                            </div>
+                            <div class="p-4 pb-0">
+                                <form class="needs-validation" novalidate="" id="formTestModal" method="post" asp-controller="Home" asp-action="AddQuote">
+                                    <div class="mb-3">
+                                        <label class="col-form-label" for="customer-name">Customer:</label>
+                                        <input class="form-control" id="customer-name" name="customer-name" type="text" />
+                                        <label class="col-form-label" for="salesrep-name">SalesRep:</label>
+                                        <input class="form-control" id="salesrep-name" name="salesrep-name" type="text" />
+                                        <label class="col-form-label" for="contact-name">Contact Name:</label>
+                                        <input class="form-control" id="contact-name" name="contact-name" type="text" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="col-form-label" for="address-text">Address:</label>
+                                        <textarea class="form-control" id="address-text" name="address-text"></textarea>
+                                        <input class="form-check-input" type="checkbox" name="_isprequote" id="=_isprequote">
+                                        <label class="form-check-label">Is Prequote</label>
+
+                                    </div>
+                                    <div class="mb-3">
+                                        <input class="form-check-input" type="checkbox" name="_isestimate" id="_isestimate">
+                                        <label class="form-check-label">Is Estimate</label>
+                                    </div>
+                                    <button class="btn btn-primary" type="submit">Save</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            @if (Model != null && Model.Any())
+                            {
+                                <table id="example1" class="table table-bordered table-striped dataTable dtr-inline" aria-describedby="example1_info">
+                                    <thead>
+                                        <tr>
+                                            <th class="sorting sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending">
+                                                ID
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Customer: activate to sort column ascending">
+                                                Customer
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="SalesRep: activate to sort column ascending">
+                                                SalesRep
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending">
+                                                Date
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="ContactName: activate to sort column ascending">
+                                                ContactName
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+
+                                        @foreach (var quote in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <a href='@Url.Action("Quote", "Home", new { id = @quote.Id })'>@quote.Id</a>
+
+                                                </td>
+                                                <td>@quote.Customer</td>
+                                                <td>@quote.SalesRep</td>
+                                                <td>@quote.CreationDate</td>
+                                                <td>@quote.ContactName</td>
+                                            </tr>
+
+                                        }
+
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th rowspan="1" colspan="1">ID</th>
+                                            <th rowspan="1" colspan="1">Customer</th>
+                                            <th rowspan="1" colspan="1">SalesRep</th>
+                                            <th rowspan="1" colspan="1">Date</th>
+                                            <th rowspan="1" colspan="1">ContactName</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            }
+                            else
+                            {
+                                <p>No data.</p>
+
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- DataTables  & Plugins -->
+
+<script src="~/AdminLTE/plugins/jquery/jquery-3.7.1.js"></script>
+<script src="~/AdminLTE/plugins/datatables/dataTables.js"></script>
+<script src="~/AdminLTE/plugins/datatables-buttons/dataTables.buttons.js"></script>
+<script src="~/AdminLTE/plugins/datatables-buttons/buttons.dataTables.js"></script>
+<script src="~/AdminLTE/plugins/datatables-buttons/buttons.print.min.js"></script>
+<script src="~/AdminLTE/plugins/datatables-buttons/buttons.html5.min.js"></script>
+
+<script src="~/AdminLTE/plugins/jszip/jszip.min.js"></script>
+<script src="~/AdminLTE/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="~/AdminLTE/plugins/pdfmake/vfs_fonts.js"></script>
+<!-- Page specific script -->
+<script>
+    $(function () {
+        new DataTable('#example1', {
+            language: {
+                emptyTable: "No quotations available."
+            },
+            layout: {
+                topStart: {
+                    buttons: [
+                        {
+                            extend: 'copyHtml5',
+                            text: '<i class="btn btn-secondary">Copy</i>',
+                            titleAttr: 'Copy'
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            text: '<i class="btn btn-secondary">Excel</i>',
+                            titleAttr: 'Excel'
+                        },
+                        {
+                            extend: 'csvHtml5',
+                            text: '<i class="btn btn-secondary">CSV</i>',
+                            titleAttr: 'CSV'
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            text: '<i class="btn btn-secondary">PDF</i>',
+                            titleAttr: 'PDF'
+                        },
+                        {
+                            extend: 'print',
+                            text: '<i class="btn btn-secondary">Print</i>',
+                            titleAttr: 'Print'
+                        },
+                    ]
+                }
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#example1').DataTable({
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sSearch": "Buscar:",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                }
+            }
+        });
+    });
+</script>
+
+

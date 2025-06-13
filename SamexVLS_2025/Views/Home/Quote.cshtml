@@ -1,0 +1,362 @@
+﻿@model ViewModel
+
+@{
+    var _quote = Model.Quote1 ?? new List<MR23_cotizacion>();
+    var _quoteDetails = Model.QuoteDetails1 ?? new List<MR23_cotizacion_detalles>();
+    ViewData["Title"] = "Quote";
+    Layout = "~/Views/Shared/_LayoutAdminlte.cshtml";
+}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="../../Home">Home</a></li>
+                    <li class="breadcrumb-item"><a href="../../Home/Quotations">Quotations</a></li>
+                    <li class="breadcrumb-item active">Quote @Model.Quote1.FirstOrDefault().Id.ToString()</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+            <!-- jquery validation -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"> @ViewData["Title"]</h3>
+                </div>
+
+                <!-- /.card-header -->
+                <!-- form start -->
+                <div class="card-body">
+                    @using (Html.BeginForm("EditQuote", "Home", new { id = Model.Quote1.FirstOrDefault().Id }, FormMethod.Post))
+                    {
+                        <!--<form asp-controller="Home" asp-action="EditQuote" asp-route-id="@Model.Quote1.DefaultIfEmpty().FirstOrDefault().Id">-->
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>ID</label>
+                                    <input type="text" class="form-control" value="@Model.Quote1.DefaultIfEmpty().FirstOrDefault().Id" readonly name="_id">
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label>Customer</label>
+                                    <input type="text" class="form-control" value="@Model.Quote1.DefaultIfEmpty().FirstOrDefault().Customer" name="_customer">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label>SalesRep</label>
+                                    <input type="text" class="form-control" value="@Model.Quote1.DefaultIfEmpty().FirstOrDefault().SalesRep" name="_salesrep">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Date</label>
+                                    <input type="text" class="form-control" value="@Model.Quote1.DefaultIfEmpty().FirstOrDefault().CreationDate" disabled="" name="_creationdate">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label>Contact Name</label>
+                                    <input type="text" class="form-control" value="@Model.Quote1.DefaultIfEmpty().FirstOrDefault().ContactName" name="_contactname">
+
+
+
+                                </div>
+                            </div>
+                            <div class="col-sm6">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="address-text">Address:</label>
+                                    <textarea class="form-control" id="address-text" name="_address">@Model.Quote1.DefaultIfEmpty().FirstOrDefault().Address</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- input states -->
+
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <!-- checkbox -->
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        @if (Model.Quote1.FirstOrDefault().IsEstimate.ToString() == true.ToString())
+                                        {
+                                            <input class="form-check-input" type="checkbox" name="_isestimate" value="true" checked="">
+                                        }
+                                        else
+                                        {
+                                            <input class="form-check-input" type="checkbox" name="_isestimate">
+                                        }
+                                        <label class="form-check-label">Is Estimate</label>
+                                    </div>
+                                    <div class="form-check">
+                                        @if (Model.Quote1.FirstOrDefault().IsPrequote.ToString() == true.ToString())
+                                        {
+                                            <input class="form-check-input" type="checkbox" name="_isprequote" value="true" checked="">
+                                        }
+                                        else
+                                        {
+                                            <input class="form-check-input" type="checkbox" name="_isprequote">
+                                        }
+                                        <label class="form-check-label">Is Prequote</label>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                       
+                        <div class="row">
+                            @if (Model.QuoteDetails1 != null && Model.QuoteDetails1.Any())
+                            {
+                                
+                                <table id="table_quotedetails" class="table table-bordered table-striped dataTable dtr-inline" aria-describedby="table_quotedetails_info" width="100%" style="table-layout: fixed;">
+                                    <thead>
+                                        <tr style="font-size: 10px;">
+                                            <th rowspan="1" colspan="1">
+                                                ID
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_quotedetails" rowspan="1" colspan="1" aria-label="Class: activate to sort column ascending">
+                                                Class
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_quotedetails" rowspan="1" colspan="1" aria-label="Profile: activate to sort column ascending">
+                                                Profile
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_quotedetails" rowspan="1" colspan="1" aria-label="Description: activate to sort column ascending">
+                                                Description
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_quotedetails" rowspan="1" colspan="1" aria-label="Billing Container: activate to sort column ascending">
+                                                Billing Container
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_quotedetails" rowspan="1" colspan="1" aria-label="Collection Container: activate to sort column ascending">
+                                                Collection Container
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_quotedetails" rowspan="1" colspan="1" aria-label="Container Description: activate to sort column ascending">
+                                                Container Description
+                                            </th>
+
+                                            <th class="sorting" tabindex="0" aria-controls="table_quotedetails" rowspan="1" colspan="1" aria-label="Treatment activate to sort column ascending">
+                                                Treatment
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_quotedetails" rowspan="1" colspan="1" aria-label="Destination: activate to sort column ascending">
+                                                Destination
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_quotedetails" rowspan="1" colspan="1" aria-label="Quantity: activate to sort column ascending">
+                                                Quantity
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_quotedetails" rowspan="1" colspan="1" aria-label="Price: activate to sort column ascending">
+                                                Price
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_quotedetails" rowspan="1" colspan="1" aria-label="Currency: activate to sort column ascending">
+                                                Currency
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_quotedetails" rowspan="1" colspan="1" aria-label="Transportation Cost: activate to sort column ascending">
+                                                Transportation Cost
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_quotedetails" rowspan="1" colspan="1" aria-label="Overcharges: activate to sort column ascending">
+                                                Overcharges
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_quotedetails" rowspan="1" colspan="1" aria-label="Minimum: activate to sort column ascending">
+                                                Minimum
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_quotedetails" rowspan="1" colspan="1" aria-label="Charge: activate to sort column ascending">
+                                                Charge
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_quotedetails" rowspan="1" colspan="1" aria-label="Max weight: activate to sort column ascending">
+                                                Max Weight
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_quotedetails" rowspan="1" colspan="1" aria-label="Notes: activate to sort column ascending">
+                                                Notes
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="table_quotedetails" rowspan="1" colspan="1" aria-label="Show in quote: activate to sort column ascending">
+                                                Show in Quote
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var quoteDetails in Model.QuoteDetails1)
+                                        {
+
+                                            <tr>
+                                                <td>@quoteDetails.Id</td>
+                                                <td>@quoteDetails.Class</td>
+                                                <td>@quoteDetails.Profile</td>
+                                                <td>@quoteDetails.Description</td>
+                                                <td>@quoteDetails.BillingContainer</td>
+
+                                                <td>@quoteDetails.CollectionContainer</td>
+                                                <td>@quoteDetails.ContainerDescription</td>
+                                                <td>@quoteDetails.Treatment</td>
+                                                <td>@quoteDetails.Destination</td>
+                                                <td>@quoteDetails.Quantity</td>
+                                                <td>@quoteDetails.Price</td>
+                                                <td>@quoteDetails.Currency</td>
+
+                                                <td>@quoteDetails.TransportationCost</td>
+                                                <td>@quoteDetails.Overcharges</td>
+                                                <td>@quoteDetails.Minimum</td>
+                                                <td>@quoteDetails.Charge</td>
+                                                <td>@quoteDetails.Maxweight</td>
+                                                <td>@quoteDetails.Notes</td>
+                                                <td>@quoteDetails.ShowInQuote</td>
+
+                                            </tr>
+
+
+                                        }
+
+
+
+                                    </tbody>
+                                    <!--
+            <tfoot>
+                <tr>
+                    <th rowspan="1" colspan="1">ID</th>
+                    <th rowspan="1" colspan="1">Customer</th>
+                    <th rowspan="1" colspan="1">SalesRep</th>
+                    <th rowspan="1" colspan="1">Date</th>
+                    <th rowspan="1" colspan="1">ContactName</th>
+                </tr>
+            </tfoot>
+            -->
+                                </table>
+
+                            }
+                            else
+                            { <p>No quote details.</p>}
+                        </div>
+
+                        <button class="btn btn-primary" type="submit" value="save">Edit Quote</button>
+
+                        <button style="width:100px" class="btn btn-block btn-secondary" id="buttonId" name="buttonId" type="button" data-toggle="modal" data-target="#testModal"><span>Add Detail</span></button>
+                        <!-- </form>-->
+                    }
+                    @using (Html.BeginForm("DeleteQuote", "Home", new { id = Model.Quote1.FirstOrDefault().Id }, FormMethod.Post))
+                    {
+                        <button class="btn btn-primary" type="submit" value="delete">Delete Quote</button>
+                    }
+                    <div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px">
+                            <div class="modal-content position-relative">
+                                <div class="position-absolute top-0 end-0 mt-2 me-2 z-1">
+                                    <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body p-0">
+                                    <div class="rounded-top-3 py-3 ps-4 pe-6 bg-body-tertiary">
+                                        <h4 class="mb-1" id="modalExampleDemoLabel">&nbsp; New Quote</h4>
+                                    </div>
+                                    <div class="p-4 pb-0">
+
+                                        @using (Html.BeginForm("AddQuoteDetails", "Home", new { id = Model.Quote1.FirstOrDefault().Id }, FormMethod.Post))
+                                        {
+                                            <!--
+                             <form class="needs-validation" novalidate="" id="formTestModal" method="post" asp-controller="Home" asp-action="AddQuoteDetails" asp-route-id="@Model.Quote1.FirstOrDefault().Id">
+                             -->
+                                            <div class="mb-3">
+                                                <label class="col-form-label" for="class-name">Class:</label>
+                                                <input class="form-control" id="class-name" name="class-name" type="text" />
+                                                <label class="col-form-label" for="profile-name">Profile:</label>
+                                                <input class="form-control" id="profile-name" name="profile-name" type="text" />
+                                                <label class="col-form-label" for="description-name">Description:</label>
+                                                <input class="form-control" id="description-name" name="description-name" type="text" />
+                                                <label class="col-form-label" for="billingcontainer-name">Billing container:</label>
+                                                <input class="form-control" id="billingcontainer-name" name="billingcontainer-name" type="text" />
+                                                <label class="col-form-label" for="collectioncontainer-name">Collection container:</label>
+                                                <input class="form-control" id="collectioncontainer-name" name="collectioncontainer-name" type="text" />
+
+                                                <label class="col-form-label" for="containerdescription-name">Container description:</label>
+                                                <input class="form-control" id="containerdescription-name" name="containerdescription-name" type="text" />
+                                                <label class="col-form-label" for="treatment-name">Treatment:</label>
+                                                <input class="form-control" id="treatment-name" name="treatment-name" type="text" />
+                                                <label class="col-form-label" for="destination-name">Destination:</label>
+                                                <input class="form-control" id="destination-name" name="destination-name" type="text" />
+                                                <label class="col-form-label" for="quantity-name">Quantity:</label>
+                                                <input class="form-control" id="quantity-name" name="quantity-name" type="text" />
+                                                <div class="mb-3">
+                                                    <label class="col-form-label" for="price-name">Price:</label>
+                                                    <input class="form-control" name="price-name" id="price-name" data-input-mask="{&quot;alias&quot;:&quot;decimal&quot;,&quot;digits&quot;:2,&quot;rightAlign&quot;:false,&quot;max&quot;:99999.99,&quot;jitMasking&quot;:false,&quot;prefix&quot;:&quot;$&quot;}" placeholder="$99999.99" type="text" inputmode="decimal">
+                                                    <label class="col-form-label" for="currency-name">Currency:</label>
+                                                    <select class="form-select" id="currency-name" name="currency-name">
+                                                        <option>USD</option>
+                                                        <option>MXN</option>
+                                                    </select>
+                                                </div>
+                                                <label class="col-form-label" for="transportationcost-name">Transportation cost:</label>
+                                                <input class="form-control" id="transportationcost-name" name="transportationcost-name" type="text" />
+                                                <label class="col-form-label" for="overcharges-name">Overcharges:</label>
+                                                <input class="form-control" id="overcharges-name" name="overcharges-name" type="text" />
+                                                <label class="col-form-label" for="minimum-name">Minimum:</label>
+                                                <input class="form-control" id="minimum-name" name="minimum-name" type="text" />
+                                                <input class="form-check-input" type="checkbox" name="charge-name">
+                                                <label class="form-check-label">Charge</label>
+                                                <div class="mb-3">
+                                                    <label class="col-form-label" for="maxweight-name">Max weight:</label>
+                                                    <input class="form-control" id="maxweight-name" name="maxweight-name" type="text" />
+                                                    <label class="col-form-label" for="notes-name">Notes:</label>
+                                                    <input class="form-control" id="notes-name" name="notes-name" type="text" />
+
+                                                    <input class="form-check-input" type="checkbox" name="showinquote-name">
+                                                    <label class="form-check-label">Show in quote</label>
+                                                </div>
+                                            </div>
+
+                                            <button class="btn btn-primary" type="submit">Save</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <!--
+                            </form>
+                            -->
+                                        }
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card -->
+        </div>
+        <!--/.col (left) -->
+        <!-- right column -->
+
+
+    </div>
+    <!--/.col (right) -->
+</div>
+<!-- /.row -->
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+<script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        var table = $('#table_quotedetails').DataTable({
+            
+            scrollX: true
+        });
+    });
+
+</script>
