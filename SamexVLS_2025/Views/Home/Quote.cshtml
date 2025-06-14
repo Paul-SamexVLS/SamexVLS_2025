@@ -36,6 +36,11 @@
                 <!-- /.card-header -->
                 <!-- form start -->
                 <div class="card-body">
+                    @using (Html.BeginForm("Pdf", "Home", new { id = Model.Quote1.FirstOrDefault().Id }, FormMethod.Post))
+                    {
+                        <button class="btn btn-primary" type="submit">PDF</button>
+                    }
+
                     @using (Html.BeginForm("EditQuote", "Home", new { id = Model.Quote1.FirstOrDefault().Id }, FormMethod.Post))
                     {
                         <!--<form asp-controller="Home" asp-action="EditQuote" asp-route-id="@Model.Quote1.DefaultIfEmpty().FirstOrDefault().Id">-->
@@ -126,11 +131,11 @@
                             </div>
 
                         </div>
-                       
+
                         <div class="row">
                             @if (Model.QuoteDetails1 != null && Model.QuoteDetails1.Any())
                             {
-                                
+
                                 <table id="table_quotedetails" class="table table-bordered table-striped dataTable dtr-inline" aria-describedby="table_quotedetails_info" width="100%" style="table-layout: fixed;">
                                     <thead>
                                         <tr style="font-size: 10px;">
@@ -232,16 +237,16 @@
 
                                     </tbody>
                                     <!--
-            <tfoot>
-                <tr>
-                    <th rowspan="1" colspan="1">ID</th>
-                    <th rowspan="1" colspan="1">Customer</th>
-                    <th rowspan="1" colspan="1">SalesRep</th>
-                    <th rowspan="1" colspan="1">Date</th>
-                    <th rowspan="1" colspan="1">ContactName</th>
-                </tr>
-            </tfoot>
-            -->
+                    <tfoot>
+                        <tr>
+                            <th rowspan="1" colspan="1">ID</th>
+                            <th rowspan="1" colspan="1">Customer</th>
+                            <th rowspan="1" colspan="1">SalesRep</th>
+                            <th rowspan="1" colspan="1">Date</th>
+                            <th rowspan="1" colspan="1">ContactName</th>
+                        </tr>
+                    </tfoot>
+                    -->
                                 </table>
 
                             }
@@ -273,8 +278,8 @@
                                         @using (Html.BeginForm("AddQuoteDetails", "Home", new { id = Model.Quote1.FirstOrDefault().Id }, FormMethod.Post))
                                         {
                                             <!--
-                             <form class="needs-validation" novalidate="" id="formTestModal" method="post" asp-controller="Home" asp-action="AddQuoteDetails" asp-route-id="@Model.Quote1.FirstOrDefault().Id">
-                             -->
+                            <form class="needs-validation" novalidate="" id="formTestModal" method="post" asp-controller="Home" asp-action="AddQuoteDetails" asp-route-id="@Model.Quote1.FirstOrDefault().Id">
+                            -->
                                             <div class="mb-3">
                                                 <label class="col-form-label" for="class-name">Class:</label>
                                                 <input class="form-control" id="class-name" name="class-name" type="text" />
